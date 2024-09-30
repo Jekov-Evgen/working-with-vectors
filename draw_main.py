@@ -2,6 +2,7 @@ from tkinter import ttk
 from tkinter import *
 from calculation_multiplication_by_calar import DrawVectorSC
 from add_vector import DrawVectorAdd
+from vector_subtraction import DrawVectorSub
 
 class MainWindow:
     def __init__(self) -> None:
@@ -42,7 +43,23 @@ class MainWindow:
         self.add_vector_travel.grid(row=8, column=0, padx=10, pady=10)
         
         ttk.Button(text="Сложить вектора!", 
-                   width=100, command=self.addition_processing).grid(row=9, column=0, padx=10, pady=10)
+                   width=100, 
+                   command=self.addition_processing).grid(row=9, column=0, padx=10, pady=10)
+        
+        ttk.Label(text="Введите ваш первый вектор через запятую без пробелов", 
+                  font="30").grid(row=10, column=0, padx=10, pady=10)
+        
+        self.subtraction_vector = ttk.Entry(width=100)
+        self.subtraction_vector.grid(row=11, column=0, padx=10, pady=10)
+        
+        ttk.Label(text="Введите ваш второй вектор через запятую без пробелов", 
+                  font="30").grid(row=12, column=0, padx=10, pady=10)
+        
+        self.vector_subtracted = ttk.Entry(width=100)
+        self.vector_subtracted.grid(row=13, column=0, padx=10, pady=10)
+        
+        ttk.Button(text="Вычесть из вектора!", 
+                   width=100, command=self.subtraction_processing).grid(row=14, column=0, padx=10, pady=10)
         
         root.mainloop()
         
@@ -98,8 +115,35 @@ class MainWindow:
               font="30").grid(row=0, column=0, padx=10, pady=10)
         
         Button(info, text="ОК", width=100, 
-               command=info.destroy).grid(row=1, column=0, padx=10, pady=10)
+               command=info.destroy).grid(row=1, column=0, padx=10, pady=10) 
         
+    def subtraction_processing(self):
+        
+        try:
+            sub_vec = str(self.subtraction_vector.get()).split(',')
+            subd_vec = str(self.vector_subtracted.get()).split(',')   
+              
+            list_sub = []
+            list_subd = []
+              
+            for i in range(len(sub_vec)):
+                list_sub.append(int(sub_vec[i]))
+                list_subd.append(int(subd_vec[i]))
+        except:
+            root = Toplevel()
+            Label(root, text="Вы ввели значение неверно! Или количество точек векторов не одинаковое", 
+                font="30").grid(row=0, column=0, padx=10, pady=10)
             
+            Button(root, text="OK", command=root.destroy, width=100).grid(row=1, column=0)
+              
+        controller = DrawVectorSub()
         
+        sub_vec = controller.draw(list_sub, list_subd)
         
+        info = Toplevel()
+        
+        Label(info, text=f"Ваш вектор после сложения: {sub_vec}", 
+              font="30").grid(row=0, column=0, padx=10, pady=10)
+        
+        Button(info, text="ОК", width=100, 
+               command=info.destroy).grid(row=1, column=0, padx=10, pady=10)

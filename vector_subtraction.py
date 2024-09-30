@@ -33,5 +33,4 @@ class DrawVectorSub:
         plt.legend()
         plt.show()
 
-        print(result)
         return result
