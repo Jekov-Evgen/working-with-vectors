@@ -4,146 +4,128 @@ from calculation_multiplication_by_calar import DrawVectorSC
 from add_vector import DrawVectorAdd
 from vector_subtraction import DrawVectorSub
 
+def show_error(message):
+    error = Toplevel()
+    Label(error, text=message, font="30").grid(row=0, column=0, padx=10, pady=10)
+    Button(error, text="ОК", command=error.destroy, width=50).grid(row=1, column=0, padx=10, pady=10)
+    
+def show_result(message):
+    info = Toplevel()
+    Label(info, text=message, font="30").grid(row=0, column=0, padx=10, pady=10)
+    Button(info, text="ОК", command=info.destroy, width=50).grid(row=1, column=0, padx=10, pady=10)
+
 class MainWindow:
     def __init__(self) -> None:
-        pass
-    
+        self.root = Tk()
+        self.root.title("Вектора")
+
     def draw_main(self):
-        root = Tk()
-        root.title("Вектора")
-        
-        frm = ttk.Frame(root, padding=10)
-        frm.grid
-        
-        ttk.Label(text="Введите через запятую(без пробелов) ваш вектор", 
-                  font="30").grid(row=0, column=0, padx=10, pady=10)
-        
-        self.vector_sc = ttk.Entry(width=100)
-        self.vector_sc.grid(row=1, column=0, padx=10, pady=10)
-        
-        ttk.Label(text="Введите ваш скаляр").grid(row=2, column=0, padx=10, pady=10)
-        
-        self.scalar = ttk.Entry(width=100)
-        self.scalar.grid(row=3, column=0, padx=10, pady=10)
-        
-        ttk.Button(text="Посчитать умножение на скаляр!", 
-                   width=100, 
-                   command=self.multiplication_by_scalar).grid(row=4, column=0, padx=10, pady=10)
-        
-        ttk.Label(text="Введите ваш первый вектор через запятую без пробелов", 
-                  font="30").grid(row=5, column=0, padx=10, pady=10)
-        
-        self.add_vector_start = ttk.Entry(width=100)
-        self.add_vector_start.grid(row=6, column=0, padx=10, pady=10)
-        
-        ttk.Label(text="Введите ваш второй вектор через запятую без пробелов", 
-                  font="30").grid(row=7, column=0, padx=10, pady=10)
-        
-        self.add_vector_travel = ttk.Entry(width=100)
-        self.add_vector_travel.grid(row=8, column=0, padx=10, pady=10)
-        
-        ttk.Button(text="Сложить вектора!", 
-                   width=100, 
-                   command=self.addition_processing).grid(row=9, column=0, padx=10, pady=10)
-        
-        ttk.Label(text="Введите ваш первый вектор через запятую без пробелов", 
-                  font="30").grid(row=10, column=0, padx=10, pady=10)
-        
-        self.subtraction_vector = ttk.Entry(width=100)
-        self.subtraction_vector.grid(row=11, column=0, padx=10, pady=10)
-        
-        ttk.Label(text="Введите ваш второй вектор через запятую без пробелов", 
-                  font="30").grid(row=12, column=0, padx=10, pady=10)
-        
-        self.vector_subtracted = ttk.Entry(width=100)
-        self.vector_subtracted.grid(row=13, column=0, padx=10, pady=10)
-        
-        ttk.Button(text="Вычесть из вектора!", 
-                   width=100, command=self.subtraction_processing).grid(row=14, column=0, padx=10, pady=10)
-        
-        root.mainloop()
-        
+        main_frame = ttk.Frame(self.root, padding=20)
+        main_frame.grid()
+
+        ttk.Button(main_frame, text="Умножение вектора на скаляр", width=50, command=self.open_scalar_window).grid(row=0, column=0, padx=10, pady=10)
+
+        ttk.Button(main_frame, text="Сложение векторов", width=50, command=self.open_addition_window).grid(row=1, column=0, padx=10, pady=10)
+
+        ttk.Button(main_frame, text="Вычитание векторов", width=50, command=self.open_subtraction_window).grid(row=2, column=0, padx=10, pady=10)
+
+        self.root.mainloop()
+
+
+    def open_scalar_window(self):
+        ScalarWindow()
+
+
+    def open_addition_window(self):
+        AdditionWindow()
+
+
+    def open_subtraction_window(self):
+        SubtractionWindow()
+
+
+class ScalarWindow:
+    def __init__(self) -> None:
+        self.window = Toplevel()
+        self.window.title("Умножение вектора на скаляр")
+
+
+        ttk.Label(self.window, text="Введите ваш вектор через запятую (без пробелов):").grid(row=0, column=0, padx=10, pady=10)
+        self.vector_entry = ttk.Entry(self.window, width=50)
+        self.vector_entry.grid(row=1, column=0, padx=10, pady=10)
+
+
+        ttk.Label(self.window, text="Введите ваш скаляр:").grid(row=2, column=0, padx=10, pady=10)
+        self.scalar_entry = ttk.Entry(self.window, width=50)
+        self.scalar_entry.grid(row=3, column=0, padx=10, pady=10)
+
+
+        ttk.Button(self.window, text="Посчитать умножение на скаляр!", command=self.multiplication_by_scalar).grid(row=4, column=0, padx=10, pady=10)
+
     def multiplication_by_scalar(self):
         try:
-            vec_sc = str(self.vector_sc.get()).split(',')
-            scalar = int(self.scalar.get())
-            
-            for i in range(len(vec_sc)):
-                vec_sc[i] = int(vec_sc[i])
-        except:
-            root = Toplevel()
-            Label(root, text="Вы ввели значение неверно!", 
-                  font="30").grid(row=0, column=0, padx=10, pady=10)
-            
-            Button(root, text="OK", command=root.destroy, width=100).grid(row=1, column=0)
-        
-        controler = DrawVectorSC()
-        multiplied_vector = controler.draw(vec_sc, scalar)
-        
-        info = Toplevel()
-        
-        Label(info, text=f"Ваш вектор после умножения на скаляр: {multiplied_vector}", 
-              font="30").grid(row=0, column=0, padx=10, pady=10)
-        
-        Button(info, text="OK", command=info.destroy, 
-               width=100).grid(row=1, column=0, padx=10, pady=10)
-        
+            vector = [int(x) for x in self.vector_entry.get().split(',')]
+            scalar = int(self.scalar_entry.get())
+        except ValueError:
+            show_error("Вы ввели значения неверно")
+            return
+
+        controller = DrawVectorSC()
+        multiplied_vector = controller.draw(vector, scalar)
+        show_result(f"Ваш вектор после умножения на скаляр {multiplied_vector}")
+
+
+class AdditionWindow:
+    def __init__(self) -> None:
+        self.window = Toplevel()
+        self.window.title("Сложение векторов")
+
+        ttk.Label(self.window, text="Введите первый вектор через запятую (без пробелов):").grid(row=0, column=0, padx=10, pady=10)
+        self.vector1_entry = ttk.Entry(self.window, width=50)
+        self.vector1_entry.grid(row=1, column=0, padx=10, pady=10)
+
+        ttk.Label(self.window, text="Введите второй вектор через запятую (без пробелов):").grid(row=2, column=0, padx=10, pady=10)
+        self.vector2_entry = ttk.Entry(self.window, width=50)
+        self.vector2_entry.grid(row=3, column=0, padx=10, pady=10)
+
+        ttk.Button(self.window, text="Сложить вектора!", command=self.addition_processing).grid(row=4, column=0, padx=10, pady=10)
+
     def addition_processing(self):
         try:
-            start = str(self.add_vector_start.get()).split(',')
-            travel = str(self.add_vector_travel.get()).split(',')
-            
-            list_start = []
-            list_travel = []
-            
-            for i in range(len(start)):
-                list_start.append(int(start[i]))
-                list_travel.append(int(travel[i]))
-        except:
-            root = Toplevel()
-            Label(root, text="Вы ввели значение неверно! Или количество точек векторов не одинаковое", 
-                  font="30").grid(row=0, column=0, padx=10, pady=10)
-            
-            Button(root, text="OK", command=root.destroy, width=100).grid(row=1, column=0)
-        
+            vector1 = [int(x) for x in self.vector1_entry.get().split(',')]
+            vector2 = [int(x) for x in self.vector2_entry.get().split(',')]
+        except ValueError:
+            show_error("Вы ввели значения неверно")
+            return
+
         controller = DrawVectorAdd()
-        add_vector = controller.draw(list_start, list_travel)
-        
-        info = Toplevel()
-        
-        Label(info, text=f"Ваш вектор после сложения: {add_vector}", 
-              font="30").grid(row=0, column=0, padx=10, pady=10)
-        
-        Button(info, text="ОК", width=100, 
-               command=info.destroy).grid(row=1, column=0, padx=10, pady=10) 
-        
+        add_vec = controller.draw(vector1, vector2)
+        show_result(f"Ваш вектор после сложения {add_vec}")
+
+
+class SubtractionWindow:
+    def __init__(self) -> None:
+        self.window = Toplevel()
+        self.window.title("Вычитание векторов")
+
+        ttk.Label(self.window, text="Введите первый вектор через запятую (без пробелов):").grid(row=0, column=0, padx=10, pady=10)
+        self.vector1_entry = ttk.Entry(self.window, width=50)
+        self.vector1_entry.grid(row=1, column=0, padx=10, pady=10)
+
+        ttk.Label(self.window, text="Введите второй вектор через запятую (без пробелов):").grid(row=2, column=0, padx=10, pady=10)
+        self.vector2_entry = ttk.Entry(self.window, width=50)
+        self.vector2_entry.grid(row=3, column=0, padx=10, pady=10)
+
+        ttk.Button(self.window, text="Вычесть из вектора!", command=self.subtraction_processing).grid(row=4, column=0, padx=10, pady=10)
+
     def subtraction_processing(self):
-        
         try:
-            sub_vec = str(self.subtraction_vector.get()).split(',')
-            subd_vec = str(self.vector_subtracted.get()).split(',')   
-              
-            list_sub = []
-            list_subd = []
-              
-            for i in range(len(sub_vec)):
-                list_sub.append(int(sub_vec[i]))
-                list_subd.append(int(subd_vec[i]))
-        except:
-            root = Toplevel()
-            Label(root, text="Вы ввели значение неверно! Или количество точек векторов не одинаковое", 
-                font="30").grid(row=0, column=0, padx=10, pady=10)
-            
-            Button(root, text="OK", command=root.destroy, width=100).grid(row=1, column=0)
-              
+            vector1 = [int(x) for x in self.vector1_entry.get().split(',')]
+            vector2 = [int(x) for x in self.vector2_entry.get().split(',')]
+        except ValueError:
+            show_error("Вы ввели значения неверно")
+            return
+
         controller = DrawVectorSub()
-        
-        sub_vec = controller.draw(list_sub, list_subd)
-        
-        info = Toplevel()
-        
-        Label(info, text=f"Ваш вектор после сложения: {sub_vec}", 
-              font="30").grid(row=0, column=0, padx=10, pady=10)
-        
-        Button(info, text="ОК", width=100, 
-               command=info.destroy).grid(row=1, column=0, padx=10, pady=10)
+        sub_vec = controller.draw(vector1, vector2)
+        show_result(f"Ваш вектор после вычитания {sub_vec}")
