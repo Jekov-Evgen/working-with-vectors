@@ -18,8 +18,8 @@ class DrawVectorAdd:
         pass
     
     def draw(self, initial_vector: list[int], travel_vector: list[int]):
-        initial_vector = np.array(initial_vector)
-        travel_vector = np.array(travel_vector)
+        initial_vector = initial_vector
+        travel_vector = travel_vector
 
         call = VectorAddition()
         result = call.Add(initial_vector, travel_vector)
@@ -35,8 +35,3 @@ class DrawVectorAdd:
         plt.show()
 
         return result
-    
-    
-tt = DrawVectorAdd()
-
-tt.draw([1, 2, 3, 4], [5, 6, 7, 8])

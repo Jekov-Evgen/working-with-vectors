@@ -12,7 +12,7 @@ class MultiplicationByScalar:
             
         return multiplied_vector
     
-class DrawVector:
+class DrawVectorSC:
     def __init__(self) -> None:
         pass
     
