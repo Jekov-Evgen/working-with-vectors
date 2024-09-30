@@ -1,18 +1,18 @@
 import matplotlib.pyplot as plt
 
-class VectorAddition:
+class VectorSubtraction:
     def __init__(self) -> None:
         pass
     
-    def Add(self, initial_vector : list[int], travel_vector : list[int]):
+    def Sub(self, initial_vector : list[int], travel_vector : list[int]):
         result_vector = []
         
         for i in range(len(initial_vector)):
-            result_vector.append(initial_vector[i] + travel_vector[i])
+            result_vector.append(initial_vector[i] - travel_vector[i])
         
         return result_vector
     
-class DrawVectorAdd:
+class DrawVectorSub:
     def __init__(self) -> None:
         pass
     
@@ -20,8 +20,8 @@ class DrawVectorAdd:
         initial_vector = initial_vector
         travel_vector = travel_vector
 
-        call = VectorAddition()
-        result = call.Add(initial_vector, travel_vector)
+        call = VectorSubtraction()
+        result = call.Sub(initial_vector, travel_vector)
 
         plt.figure(figsize=(8, 6))
 
@@ -33,4 +33,5 @@ class DrawVectorAdd:
         plt.legend()
         plt.show()
 
+        print(result)
         return result
