@@ -1,6 +1,6 @@
 from tkinter import ttk
 from tkinter import *
-from calculation_multiplication_by_calar import DrawVector
+from calculation_multiplication_by_calar import DrawVectorSC
 
 class MainWindow:
     def __init__(self) -> None:
@@ -44,7 +44,7 @@ class MainWindow:
             
             Button(root, text="OK", command=root.destroy, width=100).grid(row=1, column=0)
         
-        controler = DrawVector()
+        controler = DrawVectorSC()
         multiplied_vector = controler.draw(vec_sc, scalar)
         
         info = Toplevel()
